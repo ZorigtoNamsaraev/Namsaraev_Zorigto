@@ -1,13 +1,13 @@
 import pytest
+
 from widget import mask_account_card
 
 
 @pytest.mark.parametrize(
     "input_data, expected_output",
     [
-        ("4111111111111111", "4111 **** **** 1111"),
-        ("1234567890123456", "************3456"),
-        ("invalid_data", None),
+        ("Visa Platinum 7000792289606361", "Visa Platinum 7000 ** **** 6361"),
+        ("Счет 73654108430135874305", "Счет **3505"),
     ],
 )
 def test_mask_account_card(input_data, expected_output):
@@ -20,7 +20,11 @@ def test_mask_account_card(input_data, expected_output):
         None,
         "",
         "not_a_card_or_account",
+        "Счет",
+        "Visa 123456789012345",  # invalid card number (should be 16 digits)
+        "Счет 123",  # invalid account number (less than 4 digits)
     ],
 )
 def test_mask_account_card_invalid_input(invalid_input):
-    assert mask_account_card(invalid_input) is None
+    with pytest.raises(ValueError):
+        mask_account_card(invalid_input)
