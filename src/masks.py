@@ -1,5 +1,5 @@
 def get_mask_card_number(card_number: str) -> str:
-    """принимает на вход номер карты и возвращает ее маску"""
+    """принимает на вход номер карты и возвращает его маску"""
     card_number = card_number.replace(" ", "")
     if len(card_number) != 16 or not card_number.isdigit():
         raise ValueError("Card number must be a 16-digit number")
