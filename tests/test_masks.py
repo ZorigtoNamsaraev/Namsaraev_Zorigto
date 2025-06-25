@@ -1,34 +1,26 @@
-import pytest
+# from datetime import datetime
+from src.masks import get_mask_account
+from src.masks import get_mask_card_number
 
-from masks import get_mask_account
-from masks import get_mask_card_number
 
-
-@pytest.fixture
-def card_numbers():
-    return [
-        ("4111111111111111", "4111 **** **** 1111"),
-        ("5500 0000 0000 0004", "5500 **** **** 0004"),
-        ("3400-0000-0000-009", "3400 **** **** 0009"),
-        ("1234567890123456", "1234 **** **** 3456"),
+def test_get_mask_card_number_edge_cases():
+    edge_cases = [
+        ("", ""),  # empty input
+        ("1234-5678-1234-5678", "1234 **** **** 5678"),  # specific format
+        ("abcd", "****"),  # non-numeric input
+        ("1234567890", "****890"),  # different length
     ]
 
-
-def test_get_mask_card_number(card_numbers):
-    for number, expected in card_numbers:
+    for number, expected in edge_cases:
         assert get_mask_card_number(number) == expected
 
 
-@pytest.fixture
-def account_numbers():
-    return [
-        ("1234567890123456", "************3456"),
-        ("1234", "****"),
-        ("987654321", "*****4321"),
-        ("09876", "****"),
+def test_get_mask_account_edge_cases():
+    edge_cases = [
+        ("", ""),  # empty input
+        ("12345", "*****"),  # more digits than mask
+        ("xyz", "***"),  # non-numeric input
     ]
 
-
-def test_get_mask_account(account_numbers):
-    for number, expected in account_numbers:
+    for number, expected in edge_cases:
         assert get_mask_account(number) == expected
