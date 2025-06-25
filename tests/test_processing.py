@@ -1,7 +1,6 @@
 import pytest
 
 from src.processing import filter_by_state, sort_by_date
-#from processing import sort_by_date
 
 
 @pytest.fixture
@@ -27,8 +26,8 @@ def test_filter_by_state_no_matches(sample_data):
 @pytest.mark.parametrize(
     "sort_order, expected_dates",
     [
-        (False, ["2023-01-01", "2023-01-02", "2023-01-03"]),  # ascending
-        (True, ["2023-01-03", "2023-01-02", "2023-01-01"]),  # descending
+        (False, ["2023-01-01", "2023-01-02", "2023-01-03"]),
+        (True, ["2023-01-03", "2023-01-02", "2023-01-01"]),
     ],
 )
 def test_sort_by_date(sample_data, sort_order, expected_dates):

@@ -1,26 +1,39 @@
-# from datetime import datetime
-from src.masks import get_mask_account
-from src.masks import get_mask_card_number
+import pytest
+
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def test_get_mask_card_number_edge_cases():
     edge_cases = [
-        ("", ""),  # empty input
-        ("1234-5678-1234-5678", "1234 **** **** 5678"),  # specific format
-        ("abcd", "****"),  # non-numeric input
-        ("1234567890", "****890"),  # different length
+        ("", True),
+        ("1234-5678-1234-5678", "1234 **** **** 5678"),
+        ("abcd", True),
+        ("1234567890", True),
     ]
 
     for number, expected in edge_cases:
-        assert get_mask_card_number(number) == expected
+        if expected is True:
+            with pytest.raises(ValueError):
+                get_mask_card_number(number)
+        else:
+            assert get_mask_card_number(number) == expected
 
 
 def test_get_mask_account_edge_cases():
     edge_cases = [
-        ("", ""),  # empty input
-        ("12345", "*****"),  # more digits than mask
-        ("xyz", "***"),  # non-numeric input
+        ("", True),
+        ("12345", "*2345"),
+        ("xyz", True),
+        ("123", True),
     ]
 
     for number, expected in edge_cases:
-        assert get_mask_account(number) == expected
+        if expected is True:
+            with pytest.raises(ValueError):
+                get_mask_account(number)
+        else:
+            assert get_mask_account(number) == expected
+
+
+if __name__ == "__main__":
+    pytest.main()
