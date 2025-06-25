@@ -1,10 +1,8 @@
 import pytest
 
-from widget import get_date
-from widget import mask_account_number
-from widget import mask_card_number
+from src.widget import get_date, mask_account_number, mask_card_number
 
-# from widget import mask_account_number
+ # from widget import mask_account_number
 # from widget import mask_card_number
 
 
