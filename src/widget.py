@@ -1,11 +1,8 @@
 from datetime import datetime
 
-# from src import masks
-# import pytest
-
 
 def mask_card_number(number: str) -> str:
-    """Masks the card number: first 4, then 2 visible, followed by stars, and last 4"""
+    """частично маскирует номер карты"""
     number = number.replace(" ", "")
     if len(number) != 16 or not number.isdigit():
         raise ValueError("Card number must be a 16-digit number")
@@ -13,7 +10,7 @@ def mask_card_number(number: str) -> str:
 
 
 def mask_account_number(number: str) -> str:
-    """Masks the account number: only the last 4 digits"""
+    """ маскирует номер счета; только последние цифры """
     number = number.replace(" ", "")
     if len(number) < 4 or not number.isdigit():
         raise ValueError("Account number must be numeric and at least 4 digits long")
@@ -21,10 +18,9 @@ def mask_account_number(number: str) -> str:
 
 
 def mask_account_card(data: str) -> str:
-    """Masks the string with card or account number"""
+    """маскирует строку с номером карты или счета"""
     data = data.strip()
     if data.startswith("Счет"):
-        # Assumes format: "Счет 73654108430135874305"flake
         parts = data.split()
         if len(parts) != 2:
             raise ValueError("Неверный формат строки для счета")
@@ -32,7 +28,6 @@ def mask_account_card(data: str) -> str:
         masked = mask_account_number(number)
         return f"Счет {masked}"
     else:
-        # Assumes format: "Visa Platinum 7000792289606361"
         name_parts = data.rsplit(" ", 1)
         if len(name_parts) != 2:
             raise ValueError("Неверный формат строки для карты")
@@ -42,7 +37,7 @@ def mask_account_card(data: str) -> str:
 
 
 def get_date(date_str: str) -> str:
-    """Converts ISO date to DD.MM.YYYY format"""
+    """конвертирует ISO дату в ДД.ММ.ГГГГ формат"""
     try:
         dt = datetime.fromisoformat(date_str)
         return dt.strftime("%d.%m.%Y")
