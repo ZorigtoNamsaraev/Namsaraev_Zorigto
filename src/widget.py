@@ -10,7 +10,7 @@ def mask_card_number(number: str) -> str:
 
 
 def mask_account_number(number: str) -> str:
-    """ маскирует номер счета; только последние цифры """
+    """маскирует номер счета; только последние цифры"""
     number = number.replace(" ", "")
     if len(number) < 4 or not number.isdigit():
         raise ValueError("Account number must be numeric and at least 4 digits long")

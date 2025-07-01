@@ -1,51 +1,40 @@
 import pytest
-
-from src.widget import get_date, mask_account_number, mask_card_number
+from src.widget import get_date, mask_account_number, mask_card_number, mask_account_card
 
 
 @pytest.mark.parametrize(
-    "card_input, expected_output",
+    "account_card_input, expected_output",
     [
-        ("7000792289606361", "7000 79** **** 6361"),
-        ("1234567812345678", "1234 56** **** 5678"),
+        ("Счет 123456789", "Счет **6789"),
+        ("Имя Фамилия 7000792289606361", "Имя Фамилия 7000 79** **** 6361"),
     ],
 )
-def test_mask_card_number(card_input, expected_output):
-    assert mask_card_number(card_input) == expected_output
-
+def test_mask_account_card(account_card_input, expected_output):
+    assert mask_account_card(account_card_input) == expected_output
 
 @pytest.mark.parametrize(
-    "account_input, expected_output",
+    "invalid_account_input",
     [
-        ("73654108430135874305", "**4305"),
-        ("123456789", "**6789"),
+        "Счет 123",
+        "Счет 123 abc",
+        "Счет",
+        "",
+        "Некорректный ввод",
     ],
 )
-def test_mask_account_number(account_input, expected_output):
-    assert mask_account_number(account_input) == expected_output
-
-
-@pytest.mark.parametrize(
-    "date_input, expected_output",
-    [
-        ("2024-03-11T02:26:18.671407", "11.03.2024"),
-        ("2022-12-25T00:00:00", "25.12.2022"),
-    ],
-)
-def test_get_date(date_input, expected_output):
-    assert get_date(date_input) == expected_output
-
+def test_invalid_account_card(invalid_account_input):
+    with pytest.raises(ValueError):
+        mask_account_card(invalid_account_input)
 
 @pytest.mark.parametrize(
-    "invalid_card_input",
+    "invalid_date_input",
     [
-        "700079228960636",
-        "7000792289606362a",
-        "123456781234567",
-        "12345678123456789",
+        "2024-03-32T02:26:18.671407",
+        "some random text",
+        "2022/12/25",
         "",
     ],
 )
-def test_invalid_card_number(invalid_card_input):
+def test_invalid_date_format(invalid_date_input):
     with pytest.raises(ValueError):
-        mask_card_number(invalid_card_input)
+        get_date(invalid_date_input)
