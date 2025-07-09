@@ -1,5 +1,7 @@
 import pytest
-from src.widget import get_date, mask_account_number, mask_card_number, mask_account_card
+
+from src.widget import get_date
+from src.widget import mask_account_card
 
 
 @pytest.mark.parametrize(
@@ -11,6 +13,7 @@ from src.widget import get_date, mask_account_number, mask_card_number, mask_acc
 )
 def test_mask_account_card(account_card_input, expected_output):
     assert mask_account_card(account_card_input) == expected_output
+
 
 @pytest.mark.parametrize(
     "invalid_account_input",
@@ -25,6 +28,7 @@ def test_mask_account_card(account_card_input, expected_output):
 def test_invalid_account_card(invalid_account_input):
     with pytest.raises(ValueError):
         mask_account_card(invalid_account_input)
+
 
 @pytest.mark.parametrize(
     "invalid_date_input",
