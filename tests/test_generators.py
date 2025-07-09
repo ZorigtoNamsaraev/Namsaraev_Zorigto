@@ -5,13 +5,13 @@ from src.generators import filter_by_currency
 from src.generators import transaction_descriptions
 
 
-@pytest.fixture
-def transactions():
-    return [
-        {"id": 1, "operationAmount": {"amount": 100, "currency": {"code": "USD"}}},
-        {"id": 2, "operationAmount": {"amount": 200, "currency": {"code": "EUR"}}},
-        {"id": 3, "operationAmount": {"amount": 150, "currency": {"code": "USD"}}},
-    ]
+# @pytest.fixture
+# def transactions():
+#     return [
+#         {"id": 1, "operationAmount": {"amount": 100, "currency": {"code": "USD"}}},
+#         {"id": 2, "operationAmount": {"amount": 200, "currency": {"code": "EUR"}}},
+#         {"id": 3, "operationAmount": {"amount": 150, "currency": {"code": "USD"}}},
+#     ]
 
 
 def test_filter_by_currency(transactions):
@@ -110,7 +110,6 @@ def test_transaction_descriptions_empty():
 
 
 def test_card_number_generator():
-    # Expected outputs with proper formatting
     expected_numbers = [f"{i:0>16}" for i in range(1000, 1005)]
     generated_numbers = list(card_number_generator(1000, 1004))
     assert generated_numbers == expected_numbers
